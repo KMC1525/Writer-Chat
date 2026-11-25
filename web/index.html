@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Writer-Chat</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d9a05b'/%3E%3Cpath d='M9 23 L11 15 L21 7 L25 11 L17 21 Z' fill='%2314110f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">✒︎</span>
+      <span class="brand-name">Writer-Chat</span>
+    </div>
+    <button id="new-chat" class="btn primary wide">+ Nova história</button>
+    <nav id="conv-list" aria-label="Conversas"></nav>
+    <div class="side-foot">
+      <span id="status-dot" class="dot"></span>
+      <span id="status-text">verificando…</span>
+    </div>
+  </aside>
+  <div id="scrim"></div>
+
+  <main id="main">
+    <header id="topbar">
+      <button id="menu-btn" class="icon-btn" title="Conversas" aria-label="Conversas">☰</button>
+      <input id="title" class="title-input" type="text" maxlength="120" aria-label="Título da conversa" placeholder="Nova história">
+      <span id="model-chip" class="chip" title="Modelo em uso"></span>
+      <button id="export-btn" class="icon-btn" title="Exportar como Markdown" aria-label="Exportar">⤓</button>
+      <button id="settings-btn" class="icon-btn" title="Configurações" aria-label="Configurações">⚙</button>
+    </header>
+
+    <section id="messages" aria-live="polite"></section>
+
+    <footer id="composer">
+      <div id="drop-hint">Solte os arquivos para anexar</div>
+      <div id="attach-list" class="attach-list"></div>
+      <div class="input-row">
+        <button id="attach-btn" class="icon-btn" title="Anexar arquivos (txt, md, pdf, docx, imagens…)" aria-label="Anexar">📎</button>
+        <textarea id="input" rows="1" placeholder="Descreva a cena, cole um trecho ou peça a continuação…  (Enter envia · Shift+Enter quebra linha)"></textarea>
+        <button id="send-btn" class="btn primary send">Enviar</button>
+        <button id="stop-btn" class="btn danger send" hidden>Parar</button>
+      </div>
+      <div class="length-row">
+        <span class="len-label">Tamanho da resposta</span>
+        <div id="len-pills" class="pills" role="group" aria-label="Tamanho da resposta"></div>
+        <label class="len-custom">
+          <input id="len-input" type="number" min="20" max="8000" step="50" inputmode="numeric" placeholder="auto">
+          <span>palavras</span>
+        </label>
+        <label class="switch" title="Ativa o raciocínio (&lt;think&gt;) do modelo antes de escrever. Mais lento.">
+          <input id="think-toggle" type="checkbox"><span>Pensar antes</span>
+        </label>
+      </div>
+      <input id="file-input" type="file" multiple hidden
+        accept=".txt,.md,.markdown,.pdf,.docx,.html,.htm,.json,.csv,.tsv,.srt,.rtf,.xml,.yaml,.yml,.log,image/png,image/jpeg,image/webp,image/gif">
+    </footer>
+  </main>
+
+  <aside id="settings" aria-hidden="true">
+    <div class="settings-head">
+      <h2>Configurações</h2>
+      <button id="settings-close" class="icon-btn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="settings-body">
+      <label class="field">
+        <span>Modelo</span>
+        <input id="set-model" list="model-options" type="text" spellcheck="false">
+        <datalist id="model-options"></datalist>
+        <small id="model-hint"></small>
+      </label>
+      <label class="field">
+        <span>Instruções do sistema (estilo do escritor)</span>
+        <textarea id="set-system" rows="8" spellcheck="false"></textarea>
+        <button id="reset-system" class="link-btn" type="button">Restaurar padrão</button>
+      </label>
+      <h3>Amostragem</h3>
+      <div class="grid2">
+        <label class="field"><span>Temperatura <b id="v-temperature"></b></span><input id="set-temperature" type="range" min="0" max="2" step="0.05"></label>
+        <label class="field"><span>Top-p <b id="v-top_p"></b></span><input id="set-top_p" type="range" min="0.1" max="1" step="0.01"></label>
+        <label class="field"><span>Top-k <b id="v-top_k"></b></span><input id="set-top_k" type="range" min="0" max="200" step="1"></label>
+        <label class="field"><span>Min-p <b id="v-min_p"></b></span><input id="set-min_p" type="range" min="0" max="0.5" step="0.01"></label>
+        <label class="field"><span>Penalidade de repetição <b id="v-repeat_penalty"></b></span><input id="set-repeat_penalty" type="range" min="1" max="1.5" step="0.01"></label>
+      </div>
+      <button id="reset-sampling" class="link-btn" type="button">Restaurar amostragem padrão</button>
+      <h3>Dados</h3>
+      <p class="muted" id="data-note"></p>
+    </div>
+  </aside>
+</div>
+<div id="toasts" aria-live="assertive"></div>
+<script src="/app.js"></script>
+</body>
+</html>
